@@ -33,7 +33,7 @@ const Wrapper: FunctionComponent<PropsWithChildren<{width: number, height: numbe
 	const cc = children as ReactElement
 	let hOuterMargin = 30
 	const hInnerMargin = 45
-	const maxInnerWidth = 1300
+	const maxInnerWidth = 1200
 	const extra = width - hInnerMargin * 2 - hOuterMargin * 2 - maxInnerWidth
 	if (extra > 0) {
 		hOuterMargin += extra / 2
