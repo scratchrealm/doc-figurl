@@ -11,7 +11,8 @@ const processMarkdown = (source: string) => {
             const opts = getYamlOpts(lines.slice(i + 1))
             const height = opts.height || 700
             const src = line + '&hide=1'
-            const newLine = `<iframe src="${src}" width="100%" height="${height}" frameBorder="0"></iframe>`
+            // const newLine = `<iframe src="${src}" width="100%" height="${height}" frameBorder="0"></iframe>`
+            const newLine = `<div class="figurl-figure" src="${src}" height="${height}"></div>`
             lines2.push(newLine)
             lines2.push(`<a href="${src}">▣</a>`)
         }

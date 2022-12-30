@@ -8,12 +8,15 @@ import rehypeRaw from "rehype-raw";
 import remarkGfm from 'remark-gfm';
 import remarkMathPlugin from 'remark-math';
 import 'github-markdown-css'
+import ExternalFigurlFigure from "./ExternalFigurlFigure";
+import InternalFigurlFigure from "./InternalFigurlFigure";
 
 type Props ={
 	source: string
+	internalFigureMode: boolean
 }
 
-const Markdown: FunctionComponent<Props> = ({source}) => {
+const Markdown: FunctionComponent<Props> = ({source, internalFigureMode}) => {
 	return (
 		<div className="markdown-body">
 			<ReactMarkdown
@@ -36,6 +39,29 @@ const Markdown: FunctionComponent<Props> = ({source}) => {
 							{children}
 						</code>
 						)
+					},
+					div: ({node, className, children, ...props}) => {
+						if (className === 'figurl-figure') {
+							if (internalFigureMode) {
+								return (
+									<InternalFigurlFigure
+										src={(props as any).src}
+										height={(props as any).height}
+									/>
+								)
+							}
+							else {
+								return (
+									<ExternalFigurlFigure
+										src={(props as any).src}
+										height={(props as any).height}
+									/>
+								)
+							}
+						}
+						else {
+							return <div className={className} {...props}>{children}</div>
+						}
 					}
 				}}
 				linkTarget="_blank"

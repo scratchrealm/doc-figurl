@@ -2,29 +2,22 @@ import { FunctionComponent, PropsWithChildren, useMemo } from "react";
 import { ReactElement } from "react-markdown/lib/react-markdown";
 import Markdown from "./Markdown/Markdown";
 import processMarkdown from "./processMarkdown";
-import useGithubMarkdownContent from "./useGithubMarkdownContent";
 
 type Props ={
-	ghSource: string
+	markdown: string
+	internalFigureMode: boolean
 	width: number
 	height: number
 }
 
-const GithubMarkdownContent: FunctionComponent<Props> = ({width, height, ghSource}) => {
-	const {content, error} = useGithubMarkdownContent(ghSource)
-	const processedContent = useMemo(() => (content !== undefined ? processMarkdown(content) : undefined), [content])
-	if (error) {
-		return <div style={{color: 'red'}}>Error: {error}</div>
-	}
-	if (processedContent === undefined) {
-		return <div>Loading {ghSource}</div>
-	}
+const GithubMarkdownContent: FunctionComponent<Props> = ({width, height, markdown, internalFigureMode}) => {
+	const processedMarkdown = useMemo(() => (processMarkdown(markdown)), [markdown])
 	return (
 		<Wrapper
 			width={width}
 			height={height}
 		>
-			<Markdown source={processedContent} />
+			<Markdown source={processedMarkdown} internalFigureMode={internalFigureMode} />
 		</Wrapper>
 	)
 }
@@ -32,8 +25,8 @@ const GithubMarkdownContent: FunctionComponent<Props> = ({width, height, ghSourc
 const Wrapper: FunctionComponent<PropsWithChildren<{width: number, height: number}>> = ({children, width, height}) => {
 	const cc = children as ReactElement
 	let hOuterMargin = 30
-	const hInnerMargin = 45
-	const maxInnerWidth = 1200
+	const hInnerMargin = 100
+	const maxInnerWidth = 1000
 	const extra = width - hInnerMargin * 2 - hOuterMargin * 2 - maxInnerWidth
 	if (extra > 0) {
 		hOuterMargin += extra / 2

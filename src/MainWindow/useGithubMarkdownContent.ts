@@ -1,26 +1,27 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 
-const useGithubMarkdownContent = (ghSource: string) => {
-    const [content, setContent] = useState<string | undefined>()
+const useGithubMarkdownContent = (ghSourceUri: string | undefined) => {
+    const [markdownContent, setMarkdownContent] = useState<string | undefined>()
     const [error, setError] = useState<string | undefined>()
     useEffect(() => {
         ;(async () => {
+            if (!ghSourceUri) return
             setError(undefined)
-            setContent(undefined)
+            setMarkdownContent(undefined)
             let response: {content: string}
             try {
-                const resp = await axios.post(`/api/ghMarkdownContent`, {ghSource}, {responseType: 'json'})
+                const resp = await axios.post(`/api/ghMarkdownContent`, {ghSource: ghSourceUri}, {responseType: 'json'})
                 response = resp.data
             }
             catch(err: any) {
                 setError(`${err.message}: ${err.response.data}`)
                 return
             }
-            setContent(response.content)
+            setMarkdownContent(response.content)
         })()
-    }, [ghSource])
-    return {content, error}
+    }, [ghSourceUri])
+    return {markdownContent, error}
 }
 
 export default useGithubMarkdownContent
