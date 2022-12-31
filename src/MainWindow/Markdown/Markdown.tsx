@@ -1,9 +1,10 @@
-import "katex/dist/katex.min.css";
+// import "katex/dist/katex.min.css";
 import { FunctionComponent } from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { darcula as highlighterStyle } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import rehypeKatexPlugin from 'rehype-katex';
+// import rehypeKatexPlugin from 'rehype-katex';
+import rehypeMathJaxSvg from "rehype-mathjax";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from 'remark-gfm';
 import remarkMathPlugin from 'remark-math';
@@ -22,7 +23,7 @@ const Markdown: FunctionComponent<Props> = ({source, internalFigureMode}) => {
 			<ReactMarkdown
 				children={source}
 				remarkPlugins={[remarkGfm, remarkMathPlugin]}
-				rehypePlugins={[rehypeRaw, rehypeKatexPlugin]}
+				rehypePlugins={[rehypeRaw, rehypeMathJaxSvg/*, rehypeKatexPlugin*/]}
 				components={{
 					code: ({node, inline, className, children, ...props}) => {
 						const match = /language-(\w+)/.exec(className || '')

@@ -1,6 +1,6 @@
 import YAML from 'js-yaml'
 
-const processMarkdown = (source: string) => {
+const processMarkdown = (source: string, o: {internalFigureMode: boolean}) => {
     const lines = source.split('\n')
 
     const lines2: string[] = []
@@ -15,6 +15,17 @@ const processMarkdown = (source: string) => {
             const newLine = `<div class="figurl-figure" src="${src}" height="${height}"></div>`
             lines2.push(newLine)
             lines2.push(`<a href="${src}">▣</a>`)
+        }
+        else if ((o.internalFigureMode) && (line.startsWith("!["))) {
+            const opts = getYamlOpts(lines.slice(i + 1))
+            const imageFileName = opts.name
+            if (!imageFileName) {
+                throw Error(`No name for image on line ${i + 1} of markdown file.`)
+            }
+            const i1 = line.indexOf('(')
+            const i2 = line.indexOf(')')
+            const newLine = line.slice(0, i1 + 1) + `./images/${imageFileName}` + line.slice(i2)
+            lines2.push(newLine)
         }
         else lines2.push(line)
     }

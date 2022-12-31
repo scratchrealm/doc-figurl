@@ -11,7 +11,7 @@ type Props ={
 }
 
 const GithubMarkdownContent: FunctionComponent<Props> = ({width, height, markdown, internalFigureMode}) => {
-	const processedMarkdown = useMemo(() => (processMarkdown(markdown)), [markdown])
+	const processedMarkdown = useMemo(() => (processMarkdown(markdown, {internalFigureMode})), [markdown, internalFigureMode])
 	return (
 		<Wrapper
 			width={width}
