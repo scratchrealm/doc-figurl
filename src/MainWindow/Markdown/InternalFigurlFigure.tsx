@@ -9,22 +9,29 @@ type Props ={
 }
 
 const InternalFigurlFigure: FunctionComponent<Props> = ({src, height}) => {
+	const hasBeenVisible = useRef(false)
 	return (
 		<ReactVisibilitySensor partialVisibility={true}>
-			{({isVisible}: {isVisible: boolean}) => 
-				isVisible ? (
-					<InternalFigurlFigureChild
-						src={src}
-						height={height}
-					/>
-				) : (
-					<div
-						style={{position: 'relative', width: "100%", height}}
-					>
-						Waiting for visible
-					</div>
+			{({isVisible}: {isVisible: boolean}) => {
+				if (isVisible) {
+					hasBeenVisible.current = true
+				}
+				return (
+					isVisible || hasBeenVisible ? (
+						<InternalFigurlFigureChild
+							src={src}
+							height={height}
+						/>
+					) : (
+						<div
+							style={{position: 'relative', width: "100%", height}}
+						>
+							Waiting for visible
+						</div>
+					)
 				)
 			}
+		}
 		</ReactVisibilitySensor>
 	)
 }
