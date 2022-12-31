@@ -1,8 +1,12 @@
 import axios from "axios";
 import { FunctionComponent, useEffect, useState } from "react";
+import MainWindowDevMode from "./MainWindowDevMode";
 import MainWindowDocFigurlMode from "./MainWindowDocFigurlMode";
 import MainWindowFigurlToHtmlMode from "./MainWindowFigurlToHtmlMode";
 import useWindowDimensions from "./useWindowDimensions";
+
+const urlSearchParams = new URLSearchParams(window.location.search)
+const queryParams = Object.fromEntries(urlSearchParams.entries())
 
 type Props ={
 }
@@ -44,7 +48,16 @@ const MainWindow: FunctionComponent<Props> = () => {
 		return <div>Loading figurl.json</div>
 	}
 
-	if (figurlToHtmlMode) {
+	if (queryParams.doc) {
+		return (
+			<MainWindowDevMode
+				docUrl={queryParams.doc}
+				width={width}
+				height={height}
+			/>
+		)
+	}
+	else if (figurlToHtmlMode) {
 		return (
 			<MainWindowFigurlToHtmlMode
 				width={width}
