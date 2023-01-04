@@ -1,5 +1,6 @@
-import { FunctionComponent, PropsWithChildren, useMemo } from "react";
+import { FunctionComponent, PropsWithChildren, useEffect, useMemo } from "react";
 import { ReactElement } from "react-markdown/lib/react-markdown";
+import { updateLocationHash } from "../App";
 import Markdown from "./Markdown/Markdown";
 import processMarkdown from "./processMarkdown";
 
@@ -12,6 +13,9 @@ type Props ={
 
 const GithubMarkdownContent: FunctionComponent<Props> = ({width, height, markdown, internalFigureMode}) => {
 	const processedMarkdown = useMemo(() => (processMarkdown(markdown, {internalFigureMode})), [markdown, internalFigureMode])
+	useEffect(() => {
+		updateLocationHash()
+	}, [])
 	return (
 		<Wrapper
 			width={width}
@@ -36,7 +40,7 @@ const Wrapper: FunctionComponent<PropsWithChildren<{width: number, height: numbe
 	const W1 = width - hOuterMargin * 2
 	const W2 = W1 - hInnerMargin * 2
 	return (
-		<div style={{position: 'relative', left: hOuterMargin, width: W1, top: vOuterMargin, border: 'solid 1px lightgray', paddingBottom: 100}}>
+		<div className="markdown-content" style={{position: 'relative', left: hOuterMargin, width: W1, top: vOuterMargin, border: 'solid 1px lightgray', paddingBottom: 100}}>
 			<div style={{position: 'relative', left: hInnerMargin, width: W2, top: vInnerMargin}}>
 				<cc.type {...cc.props} />
 			</div>

@@ -11,6 +11,7 @@ import remarkMathPlugin from 'remark-math';
 import 'github-markdown-css'
 import ExternalFigurlFigure from "./ExternalFigurlFigure";
 import InternalFigurlFigure from "./InternalFigurlFigure";
+import MarkdownLink from "./MarkdownLink";
 
 type Props ={
 	source: string
@@ -63,6 +64,15 @@ const Markdown: FunctionComponent<Props> = ({source, internalFigureMode}) => {
 						else {
 							return <div className={className} {...props}>{children}</div>
 						}
+					},
+					a: ({node, children, href, ...props}) => {
+						if ((href) && (href.startsWith('#'))) {
+							return <MarkdownLink href={href}>{children}</MarkdownLink>
+						}
+						else {
+							return <a {...props}>{children}</a>
+						}
+						
 					}
 				}}
 				linkTarget="_blank"
