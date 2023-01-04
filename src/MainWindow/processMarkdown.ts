@@ -14,6 +14,7 @@ const processMarkdown = (source: string, o: {internalFigureMode: boolean}) => {
             // const newLine = `<iframe src="${src}" width="100%" height="${height}" frameBorder="0"></iframe>`
             const newLine = `<div class="figurl-figure" src="${src}" height="${height}"></div>`
             lines2.push(newLine)
+            lines2.push('')
         }
         else if ((o.internalFigureMode) && (line.startsWith("!["))) {
             const opts = getYamlOpts(lines.slice(i + 1))
