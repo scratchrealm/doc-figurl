@@ -1,4 +1,4 @@
-import { FunctionComponent, useRef, useState } from "react";
+import { FunctionComponent, useRef } from "react";
 import ReactVisibilitySensor from "react-visibility-sensor";
 
 type Props ={

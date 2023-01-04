@@ -28,6 +28,12 @@ const MainWindowDevMode: FunctionComponent<Props> = ({width, height, docUrl}) =>
 			tabIndex={0}
 			onKeyDown={handleKeyDown}
 		>
+			<div style={{color: '#aaaaff', textAlign: 'center'}}>
+				<br />
+				Viewing {docUrl}
+				<br />
+				Press "r" to refresh
+			</div>
 			<GithubMarkdownContent
 				markdown={markdownContent}
 				internalFigureMode={false}
