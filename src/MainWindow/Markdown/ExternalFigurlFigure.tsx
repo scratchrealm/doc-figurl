@@ -12,10 +12,11 @@ const ExternalFigurlFigure: FunctionComponent<Props> = ({src, height}) => {
 		<ReactVisibilitySensor partialVisibility={true}>
 			{({isVisible}: {isVisible: boolean}) => {
 				if (isVisible) {
+					console.log('--- external figure visible')
 					hasBeenVisible.current = true
 				}
 				return (
-					isVisible || hasBeenVisible ? (
+					isVisible || hasBeenVisible.current ? (
 						<iframe
 							title="external figurl figure"
 							src={src}

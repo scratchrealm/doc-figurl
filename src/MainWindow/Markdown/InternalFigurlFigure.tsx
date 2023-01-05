@@ -17,7 +17,7 @@ const InternalFigurlFigure: FunctionComponent<Props> = ({src, height}) => {
 					hasBeenVisible.current = true
 				}
 				return (
-					isVisible || hasBeenVisible ? (
+					isVisible || hasBeenVisible.current ? (
 						<InternalFigurlFigureChild
 							src={src}
 							height={height}
