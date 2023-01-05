@@ -1,4 +1,4 @@
-import { FunctionComponent, useRef } from "react";
+import { FunctionComponent, useEffect, useRef } from "react";
 import ReactVisibilitySensor from "react-visibility-sensor";
 
 type Props ={
@@ -12,7 +12,6 @@ const ExternalFigurlFigure: FunctionComponent<Props> = ({src, height}) => {
 		<ReactVisibilitySensor partialVisibility={true}>
 			{({isVisible}: {isVisible: boolean}) => {
 				if (isVisible) {
-					console.log('--- external figure visible')
 					hasBeenVisible.current = true
 				}
 				return (
