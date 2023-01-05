@@ -4,6 +4,8 @@ const processMarkdown = (source: string, o: {internalFigureMode: boolean}) => {
     let lines = source.split('\n')
 
     const frontMatter = parseFrontMatter(lines)
+    lines = removeFrontMatter(lines)
+
 
     const citationsDirective: string | undefined = frontMatter['citations-directive']
     if (citationsDirective === 'dev1') {
@@ -77,6 +79,14 @@ function parseFrontMatter(lines: string[]): {[key: string]: any} {
     catch(err) {
         return {}
     }
+}
+
+function removeFrontMatter(lines: string[]): string[] {
+    const line0 = lines[0]
+    if (line0.trim() !== '---') return lines
+    const ind1 = lines.findIndex((v, i) => ((i > 0) && (v.trim() === '---')))
+    if (ind1 < 0) return lines
+    return lines.slice(ind1 + 1)
 }
 
 function processCitations(lines: string[]): string[] {
