@@ -70,7 +70,7 @@ const Markdown: FunctionComponent<Props> = ({source, internalFigureMode}) => {
 							return <MarkdownLink href={href}>{children}</MarkdownLink>
 						}
 						else {
-							return <a {...props}>{children}</a>
+							return <a href={href} {...props}>{children}</a>
 						}
 						
 					}

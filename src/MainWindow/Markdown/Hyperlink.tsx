@@ -9,7 +9,7 @@ type Props = {
 
 const Hyperlink: FunctionComponent<PropsWithChildren<Props>> = ({ style={}, onClick, href, target, children }) => {
     let style0: React.CSSProperties = {
-        color: '#5555aa',
+        color: '#5555ff',
         cursor: 'pointer',
         // textDecoration: 'underline',
         fontWeight: 'bold',

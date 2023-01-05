@@ -1,7 +1,14 @@
 import YAML from 'js-yaml'
 
 const processMarkdown = (source: string, o: {internalFigureMode: boolean}) => {
-    const lines = source.split('\n')
+    let lines = source.split('\n')
+
+    const frontMatter = parseFrontMatter(lines)
+
+    const citationsDirective: string | undefined = frontMatter['citations-directive']
+    if (citationsDirective === 'dev1') {
+        lines = processCitations(lines)
+    }
 
     const lines2: string[] = []
 
@@ -55,6 +62,100 @@ function getYamlOpts(lines: string[]): {[key: string]: any} {
     }
     catch(err) {
         return {}
+    }
+}
+
+function parseFrontMatter(lines: string[]): {[key: string]: any} {
+    const line0 = lines[0]
+    if (line0.trim() !== '---') return {}
+    const ind1 = lines.findIndex((v, i) => ((i > 0) && (v.trim() === '---')))
+    if (ind1 < 0) return {}
+    const yaml = lines.slice(1, ind1).join('\n')
+    try {
+        return YAML.load(yaml) || {}
+    }
+    catch(err) {
+        return {}
+    }
+}
+
+function processCitations(lines: string[]): string[] {
+    const bibInd = lines.findIndex(a => (a.trim() === '<!--bibliography-->'))
+    if (bibInd < 0) return lines
+
+    const linesBody = lines.slice(0, bibInd)
+    const linesBib = lines.slice(bibInd)
+    const citationMap: {[key: string]: {num: number}} = {}
+
+    const linesBib2: string[] = []
+    let lastNum = 0
+    for (let line of linesBib) {
+        let newLine = line
+        if (line.startsWith('\\[@')) {
+            const i1 = line.indexOf('\\]')
+            if (i1 >= 0) {
+                lastNum += 1
+                const key = line.slice(3, i1)
+                newLine = `<a name="ref-${key}"></a>\\[${lastNum}\\]${line.slice(i1 + 2)}`
+                citationMap[key] = {num: lastNum}
+            }
+        }
+        else if (line.startsWith('[@')) {
+            const i1 = line.indexOf(']')
+            if (i1 >= 0) {
+                lastNum += 1
+                const key = line.slice(2, i1)
+                newLine = `<a name="ref-${key}"></a>[${lastNum}]${line.slice(i1 + 1)}`
+                citationMap[key] = {num: lastNum}
+            }
+        }
+        linesBib2.push(newLine)
+    }
+
+    const linesBody2: string[] = []
+    function processBracketedPart(str: string) {
+        return handleSeparatedParts(str, [',', ';'], a => {
+            if ((a.startsWith('@')) && (a.slice(1) in citationMap)) {
+                const key = a.slice(1)
+                const num = citationMap[key].num
+                return `<a href="#ref-${key}">${num}</a>`
+            }
+            else return a
+        })
+    }
+    for (let line of linesBody) {
+        const newLine = handleBracketedParts(line, processBracketedPart)
+        linesBody2.push(newLine)
+    }
+    return [...linesBody2, ...linesBib2]
+}
+
+function handleBracketedParts(a: string, handler: (x: string) => string) {
+    return a.split('[').map((part1, i) => {
+        if (i > 0) {
+            const jj = part1.indexOf(']')
+            if (jj >= 0) {
+                return handler(part1.slice(0, jj)) + part1.slice(jj)
+            }
+            else {
+                return part1
+            }
+        }
+        else return part1
+    }).join('[')
+}
+
+function handleSeparatedParts(a: string, delimiters: string[], handler: (x: string) => string): string {
+    for (let d of delimiters) {
+        if (a.split(d).length > 1) {
+            return a.split(d).map(x => (handleSeparatedParts(x, delimiters, handler))).join(d)
+        }
+    }
+    if (a.startsWith(' ')) {
+        return ' ' + handler(a.slice(1))
+    }
+    else {
+        return handler(a)
     }
 }
 
