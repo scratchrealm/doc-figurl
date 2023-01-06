@@ -1,6 +1,7 @@
-import { FunctionComponent, useCallback, useEffect, useMemo, useRef } from "react";
+import { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ReactVisibilitySensor from "react-visibility-sensor";
 import deserializeReturnValue from "./deserializeReturnValue";
+import FigurlFigureMenuBar from "./FigurlFigureMenuBar";
 import loadFile from "./loadFile";
 
 type Props ={
@@ -9,6 +10,28 @@ type Props ={
 }
 
 const InternalFigurlFigure: FunctionComponent<Props> = ({src, height}) => {
+	const [visible, setVisible] = useState(true)
+	return (
+		<div>
+			<FigurlFigureMenuBar
+				src={undefined}
+				visible={visible}
+				setVisible={setVisible}
+			/>
+			{
+				// Do the visibility this way so that the iframe doesn't need to reload when toggling visibility
+				<div style={{overflow: "hidden", position: 'relative', height: visible ? height : 0}}>
+					<InternalFigurlFigureInner
+						src={src}
+						height={height}
+					/>
+				</div>
+			}
+		</div>
+	)
+}
+
+const InternalFigurlFigureInner: FunctionComponent<Props> = ({src, height}) => {
 	const hasBeenVisible = useRef(false)
 	return (
 		<ReactVisibilitySensor partialVisibility={true}>

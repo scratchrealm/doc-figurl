@@ -1,0 +1,7 @@
+.TinyButton {
+    background: gray;
+}
+
+.TinyButton:hover {
+    background: white;
+}
