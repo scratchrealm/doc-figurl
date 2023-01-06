@@ -50,7 +50,7 @@ module.exports = (req: VercelRequest, res: VercelResponse) => {
                 res.status(200).send({content})
             }
             catch(err) {
-                res.status(500).send(err.message)
+                res.status(501).send(`Unexpected: ${err.message}`)
             }
         }
         else {
