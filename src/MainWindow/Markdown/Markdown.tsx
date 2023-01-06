@@ -4,7 +4,7 @@ import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { darcula as highlighterStyle } from 'react-syntax-highlighter/dist/esm/styles/prism';
 // import rehypeKatexPlugin from 'rehype-katex';
-import 'github-markdown-css';
+import 'github-markdown-css/github-markdown-light.css';
 import { SpecialComponents } from "react-markdown/lib/ast-to-react";
 import { NormalComponents } from "react-markdown/lib/complex-types";
 import rehypeMathJaxSvg from "rehype-mathjax";

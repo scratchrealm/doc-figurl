@@ -26,13 +26,23 @@ const MainWindowDocFigurlMode: FunctionComponent<Props> = ({width, height}) => {
 	if (!markdownContent) {
 		return <div>Loading markdown from {ghSourceUri}</div>
 	}
+	const ghSourceUrl = `https://github.com/${ghSourceUri}`
 	return (
-		<GithubMarkdownContent
-			markdown={markdownContent}
-			internalFigureMode={false}
-			width={width}
-			height={height}
-		/>
+		<div
+			// tabIndex={0}
+			// onKeyDown={handleKeyDown}
+		>
+			<div style={{color: '#aaaaff', textAlign: 'center'}}>
+				<br />
+				Viewing <a style={{color: 'inherit'}} href={ghSourceUrl} target="_blank" rel="noreferrer">{ghSourceUrl}</a>
+			</div>
+			<GithubMarkdownContent
+				markdown={markdownContent}
+				internalFigureMode={false}
+				width={width}
+				height={height}
+			/>
+		</div>
 	)
 }
 
