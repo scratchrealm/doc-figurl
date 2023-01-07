@@ -1,5 +1,5 @@
-import { VercelRequest, VercelResponse } from '@vercel/node'
 import axios from 'axios'
+import { VercelRequest, VercelResponse } from '@vercel/node'
 
 module.exports = (req: VercelRequest, res: VercelResponse) => {
     // // CORS ///////////////////////////////////
@@ -43,13 +43,13 @@ module.exports = (req: VercelRequest, res: VercelResponse) => {
                     const a = await axios.get(url, {responseType: 'text'})
                     content = a.data
                 }
-                catch(err2) {
+                catch(err2: any) {
                     res.status(404).send(`Unable to fetch document: ${err2.message}`)
                     return
                 }
                 res.status(200).send({content})
             }
-            catch(err) {
+            catch(err: any) {
                 res.status(501).send(`Unexpected: ${err.message}`)
             }
         }
