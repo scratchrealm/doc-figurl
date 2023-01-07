@@ -7,7 +7,7 @@ const processMarkdown = (source: string, o: {internalFigureMode: boolean}) => {
     lines = removeFrontMatter(lines)
 
     const citationsDirective: string | undefined = frontMatter['citations-directive']
-    if (citationsDirective === 'dev1') {
+    if (citationsDirective === '1') {
         lines = processCitations(lines)
     }
 
