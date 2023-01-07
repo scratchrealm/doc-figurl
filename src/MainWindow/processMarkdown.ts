@@ -6,10 +6,14 @@ const processMarkdown = (source: string, o: {internalFigureMode: boolean}) => {
     const frontMatter = parseFrontMatter(lines)
     lines = removeFrontMatter(lines)
 
-
     const citationsDirective: string | undefined = frontMatter['citations-directive']
     if (citationsDirective === 'dev1') {
         lines = processCitations(lines)
+    }
+
+    const title: string | undefined = frontMatter['title']
+    if (title) {
+        document.title = title
     }
 
     const lines2: string[] = []
