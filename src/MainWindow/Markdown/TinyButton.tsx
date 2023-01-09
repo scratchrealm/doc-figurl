@@ -1,30 +1,27 @@
 import { FunctionComponent, useMemo } from "react";
-import './TinyButton.css'
+import './TinyButton.css';
 
 type Props ={
 	onClick: () => void
 	width: number
 	height: number
 	title: string
-	margin: number
+	icon: any
 }
 
-const TinyButton: FunctionComponent<Props> = ({onClick, width, height, margin, title}) => {
+const TinyButton: FunctionComponent<Props> = ({onClick, width, height, title, icon}) => {
 	const styleOuter: React.CSSProperties = useMemo(() => ({
 		position: 'relative',
 		width,
-		height
+		height,
+		fontSize: height - 2,
+		marginTop: 0,
+		marginRight: 6
 	}), [width, height])
-	const styleInner: React.CSSProperties = useMemo(() => ({
-		position: 'relative',
-		left: margin,
-		top: margin,
-		width: width - margin * 2,
-		height: height - margin * 2
-	}), [width, height, margin])
+	const IconType = icon.type
 	return (
-		<div style={styleOuter}>
-			<div style={styleInner} className="TinyButton" title={title} onClick={onClick} />
+		<div style={styleOuter} className="TinyButton" onClick={onClick} title={title}>
+			<IconType {...icon.props} fontSize="inherit" />
 		</div>
 	)
 }

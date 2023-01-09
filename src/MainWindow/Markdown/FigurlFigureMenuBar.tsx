@@ -1,3 +1,4 @@
+import { ExpandMore, Launch, Remove } from "@material-ui/icons";
 import { FunctionComponent, useCallback } from "react";
 import TinyButton from "./TinyButton";
 
@@ -28,12 +29,24 @@ const FigurlFigureMenuBar: FunctionComponent<Props> = ({src, visible, setVisible
 			{
 				src && (
 					<div style={{float: 'right'}}>
-						<TinyButton onClick={handleOpen} width={ss} height={ss} margin={3} title="Open in new tab" />
+						<TinyButton
+							onClick={handleOpen}
+							width={ss}
+							height={ss}
+							icon={<Launch />}
+							title="Open in new tab"
+						/>
 					</div>
 				)
 			}
 			<div style={{float: 'right'}}>
-				<TinyButton onClick={() => setVisible(!visible)} width={ss} height={ss} margin={3} title="Toggle visibility" />
+				<TinyButton
+					onClick={() => setVisible(!visible)}
+					width={ss}
+					height={ss}
+					icon={visible ? <Remove /> : <ExpandMore />}
+					title="Toggle visibility"
+				/>
 			</div>
 		</div>
 	)
