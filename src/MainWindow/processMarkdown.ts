@@ -6,8 +6,8 @@ const processMarkdown = (source: string, o: {internalFigureMode: boolean}) => {
     const frontMatter = parseFrontMatter(lines)
     lines = removeFrontMatter(lines)
 
-    const citationsDirective: string | undefined = frontMatter['citations-directive']
-    if (citationsDirective === '1') {
+    const citationsDirective: number | string | undefined = frontMatter['citations-directive']
+    if (citationsDirective === 1) {
         lines = processCitations(lines)
     }
 
