@@ -41,7 +41,7 @@ const ExternalFigurlFigureInner: FunctionComponent<Props> = ({src, height}) => {
 					isVisible || hasBeenVisible.current ? (
 						<iframe
 							title="external figurl figure"
-							src={src}
+							src={src + '&hide=1'}
 							width="100%"
 							height={height}
 							frameBorder={0}
